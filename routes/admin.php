@@ -9,13 +9,14 @@ use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin."], function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+    // Route::get('register', [RegisteredUserController::class, 'create'])
+    //     ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    // Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -35,7 +36,7 @@ Route::group(["middleware" => "guest:admin", "prefix" => "admin", "as" => "admin
         ->name('password.store');
 });
 
-Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin."],function () {
+Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin."], function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -57,3 +58,12 @@ Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin.
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+
+Route::group(["middleware" => "auth:admin", "prefix" => "admin", "as" => "admin."], function () {
+
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+});
+
+
