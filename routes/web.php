@@ -1,16 +1,27 @@
 <?php
 
+use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
 use App\Http\Controllers\Frontend\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+/**
+ * ------------------------------------------------------------------------------------------------------------
+ * Frontend Route Start
+ * ------------------------------------------------------------------------------------------------------------
+ */
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+ /**
+ * ------------------------------------------------------------------------------------------------------------
+ * Frontend Route End
+ * ------------------------------------------------------------------------------------------------------------
+ */
+
 
 /**
  * ------------------------------------------------------------------------------------------------------------
