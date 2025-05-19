@@ -46,6 +46,7 @@ class ProfileController extends Controller
         $user->bio = $request->about_me;
         $user->save();
 
+        notyf()->success('Updated Successfully!');
         return redirect()->back();
     }
 
@@ -62,6 +63,7 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
+        notyf()->success('Password Updated Successfully!');
         return redirect()->back();
     }
 
@@ -81,6 +83,7 @@ class ProfileController extends Controller
         $user->website = $request->website;
         $user->save();
 
+        notyf()->success('Social Info Updated Successfully!');
         return redirect()->back();
     }
 }
