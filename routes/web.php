@@ -6,9 +6,9 @@ use App\Http\Controllers\Frontend\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 /**
  * ------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,10 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
  * ------------------------------------------------------------------------------------------------------------
  */
 Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:student'], 'prefix' => 'student', 'as' => 'student.'], function () {
-    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
+    Route::get('become-instructor', [StudentDashboardController::class, 'becomeInstructor'])->name('become-instructor');
+
+    Route::put('become-instructor', [StudentDashboardController::class, 'becomeInstructorUpdate'])->name('become-instructor.update');
 });
 /**
  * -----------------------------------------------------------------------------------------------------------
@@ -43,7 +46,7 @@ Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:student'], 'pr
  * ------------------------------------------------------------------------------------------------------------
  */
 Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:instructor'], 'prefix' => 'instructor', 'as' => 'instructor.'], function () {
-    Route::get('/dashboard', [InstructorDashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [InstructorDashboardController::class, 'index'])->name('dashboard');
 });
  /**
   * ----------------------------------------------------------------------------------------------------------
