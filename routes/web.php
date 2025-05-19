@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\InstructorDashboardController;
+use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
  * ------------------------------------------------------------------------------------------------------------
  */
 Route::get('/', [FrontendController::class, 'index'])->name('home');
- /**
+/**
  * ------------------------------------------------------------------------------------------------------------
  * Frontend Route End
  * ------------------------------------------------------------------------------------------------------------
@@ -33,6 +34,12 @@ Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:student'], 'pr
     Route::get('become-instructor', [StudentDashboardController::class, 'becomeInstructor'])->name('become-instructor');
 
     Route::put('become-instructor', [StudentDashboardController::class, 'becomeInstructorUpdate'])->name('become-instructor.update');
+
+    /** Profile Routes */
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
+    Route::post('profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::post('profile/update-social', [ProfileController::class, 'updateSocial'])->name('profile.update-social');
 });
 /**
  * -----------------------------------------------------------------------------------------------------------
@@ -40,19 +47,24 @@ Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:student'], 'pr
  * ------------------------------------------------------------------------------------------------------------
  */
 
- /**
-  * -----------------------------------------------------------------------------------------------------------
+/**
+ * -----------------------------------------------------------------------------------------------------------
  * Instructor Route Start
  * ------------------------------------------------------------------------------------------------------------
  */
 Route::group(['middleware' => ['auth:web', 'verified', 'checkRole:instructor'], 'prefix' => 'instructor', 'as' => 'instructor.'], function () {
     Route::get('dashboard', [InstructorDashboardController::class, 'index'])->name('dashboard');
+    /** Profile Routes */
+    Route::get('profile', [ProfileController::class, 'instructorIndex'])->name('profile.index');
+    Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
+    Route::post('profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+    Route::post('profile/update-social', [ProfileController::class, 'updateSocial'])->name('profile.update-social');
 });
- /**
-  * ----------------------------------------------------------------------------------------------------------
+/**
+ * ----------------------------------------------------------------------------------------------------------
  * Instructor Route End
  * -----------------------------------------------------------------------------------------------------------
  */
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';
