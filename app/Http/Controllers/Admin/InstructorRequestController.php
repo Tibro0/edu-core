@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Mail\InstructorRequestApprovedMail;
 use App\Mail\InstructorRequestRejectMail;
 use App\Models\User;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class InstructorRequestController extends Controller
 {
+    use FileUpload;
     /**
      * Display a listing of the resource.
      */
@@ -92,6 +94,18 @@ class InstructorRequestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $instructorRequest = User::findOrFail($id);
+        if ($instructorRequest->image === '/default-files/avatar.png') {
+            $this->deleteFile($instructorRequest->document);
+            $instructorRequest->delete();
+
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        } else {
+            $this->deleteFile($instructorRequest->image);
+            $this->deleteFile($instructorRequest->document);
+            $instructorRequest->delete();
+
+            return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        }
     }
 }
