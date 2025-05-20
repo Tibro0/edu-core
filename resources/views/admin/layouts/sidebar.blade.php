@@ -21,6 +21,7 @@
                         Management</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.course-language.index') }}">Course Languages</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.course-level.index') }}">Course Levels</a></li>
                 </ul>
             </li>
 
