@@ -6,22 +6,26 @@ use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 
-trait FileUpload {
+trait FileUpload
+{
 
-    public function uploadFile(UploadedFile $file, string $directory = 'uploads') : string {
+    public function uploadFile(UploadedFile $file, string $directory = 'uploads'): string
+    {
+        try{
 
-            $filename = 'educore_'.uniqid().'.'. $file->getClientOriginalExtension();
-
-            // move the file to storage
-            $file->move(public_path($directory), $filename);
-
-            return '/' . $directory. '/' . $filename;
-
-
+        $filename = 'educore_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        // move the file to storage
+        $file->storeAs($directory, $filename, 'public');
+        return '/' . $directory . '/' . $filename;
+        
+        }catch(Exception $e){
+            throw $e;
+        }
     }
 
-    public function deleteFile(?string $path){
-        if(File::exists(public_path($path))) {
+    public function deleteFile(?string $path)
+    {
+        if (File::exists(public_path($path))) {
             File::delete(public_path($path));
             return true;
         }
